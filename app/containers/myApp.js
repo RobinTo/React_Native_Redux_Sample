@@ -10,12 +10,10 @@ class MyApp extends Component {
     }
 
     componentDidMount(){
-        console.log("ComponentDidMount myApp");
         this.props.getChampionData();
     }
 
     render() {
-        console.log("Rendering  when listening to championReducer");
 
         if(!this.props.championReducer.champions){
             return (
@@ -38,11 +36,3 @@ function mapStateToProps(state, ownProps) {
 }
 
 export const MyAppContainer = connect(mapStateToProps, myAppActions)(MyApp);
-/*
-export default connect(state => ({
-        state: state.championReducer
-    }),
-    (dispatch) => ({
-        actions: bindActionCreators(myAppActions, dispatch)
-    })
-)(MyApp);*/
