@@ -1,4 +1,4 @@
-# React_Native_Redux_Sample
+# React Native with Redux and Navigation Example
 
 Experimental react-native app using redux for state management, and thunk to retrieve data through ajax from an api. Heavily influenced by the example at https://github.com/alinz/example-react-native-redux.
 
