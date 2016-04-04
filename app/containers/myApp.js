@@ -1,33 +1,45 @@
-import React, { Component, View, Text } from 'react-native';
+import React, { Component, View, Text, Navigator, BackAndroid } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as myAppActions from '../actions/myAppActions';
-import ChampionList from '../components/ChampionList';
+import { ChampionListContainer } from '../components/ChampionList';
+
+var _navigator;
 
 class MyApp extends Component {
     constructor(props) {
         super(props);
     }
 
-    componentDidMount(){
-        this.props.getChampionData();
+    _renderScene(route, navigator) {
+        _navigator = navigator;
+        var Component = route.component;
+        return (
+            <Component {...route.props} navigator={navigator} route={route} />
+        );
     }
 
     render() {
 
-        if(!this.props.championReducer.champions){
-            return (
-                <View>
-                    <Text>Loading champions...</Text>
-                </View>
-            );
-        }
-
         return(
-            <ChampionList champions={this.props.championReducer.champions} />
+            <Navigator
+                initialRoute={{
+                    component: ChampionListContainer,
+                    props: {}
+                }}
+                renderScene={this._renderScene}
+            />
         );
     }
 }
+
+BackAndroid.addEventListener('hardwareBackPress', function() {
+    if (!(_navigator.getCurrentRoutes().length === 1)) {
+        _navigator.pop();
+        return true;
+    }
+    return false;
+});
 
 function mapStateToProps(state, ownProps) {
     return {
