@@ -39,9 +39,9 @@ export class LiveGame extends Component {
 
         var liveGameParticipants = [];
 
-        if(this.props.liveGameState.liveGame){
-            for(var i in this.props.liveGameState.liveGame.participants){
-                let participant = this.props.liveGameState.liveGame.participants[i];
+        if(this.props.liveGame){
+            for(var i in this.props.liveGame.participants){
+                let participant = this.props.liveGame.participants[i];
                 liveGameParticipants.push(<Text key={i}>{participant.summonerName}</Text>)
             }
         } else {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, ownProps) {
     return {
-        liveGameState : state.liveGameReducer
+        liveGame : state.liveGameReducer.liveGame
     }
 }
 
