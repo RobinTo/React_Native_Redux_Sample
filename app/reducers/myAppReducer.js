@@ -1,5 +1,7 @@
 import championReducer from './championReducer';
+import liveGameReducer from './LiveGameReducer';
 
 export {
-    championReducer
+    championReducer,
+    liveGameReducer
 };

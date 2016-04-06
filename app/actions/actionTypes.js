@@ -1,3 +1,9 @@
+// ChampionReducer
 export const GET_CHAMPION_DATA = 'GET_CHAMPION_DATA';
 export const SET_CHAMPION_DATA = 'SET_CHAMPION_DATA';
 export const SET_FILTERED_CHAMPIONS = 'SET_FILTERED_CHAMPIONS';
+
+
+// Live Game reducer
+export const SET_SUMMONERDATA = 'SET_SUMMONERDATA';
+export const SET_LIVEGAME = 'SET_LIVEGAME';

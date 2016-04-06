@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as myAppActions from '../actions/myAppActions';
 import { ChampionListContainer } from '../components/ChampionList';
+import { LiveGameContainer } from '../components/LiveGame';
 
 var _navigator;
 
@@ -25,7 +26,7 @@ class MyApp extends Component {
             <View style={{flex:1, backgroundColor: '#F5FCFF'}}>
                 <Navigator
                     initialRoute={{
-                        component: ChampionListContainer,
+                        component: LiveGameContainer,
                         props: {}
                     }}
                     renderScene={this._renderScene}
