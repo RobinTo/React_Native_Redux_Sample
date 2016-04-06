@@ -1,7 +1,8 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
-    champions: null
+    champions: null,
+    filteredChampions: null
 };
 
 export default function championReducer(state = initialState, action = {}) {
@@ -11,6 +12,11 @@ export default function championReducer(state = initialState, action = {}) {
             return {
                 ...state,
                 champions: action.championData
+            }
+        case types.SET_FILTERED_CHAMPIONS:
+            return {
+                ...state,
+                filteredChampions: action.championData
             }
         default:
             return state;

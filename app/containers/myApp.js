@@ -22,13 +22,15 @@ class MyApp extends Component {
     render() {
 
         return(
-            <Navigator
-                initialRoute={{
-                    component: ChampionListContainer,
-                    props: {}
-                }}
-                renderScene={this._renderScene}
-            />
+            <View style={{flex:1, backgroundColor: '#F5FCFF'}}>
+                <Navigator
+                    initialRoute={{
+                        component: ChampionListContainer,
+                        props: {}
+                    }}
+                    renderScene={this._renderScene}
+                />
+            </View>
         );
     }
 }

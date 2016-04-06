@@ -5,7 +5,9 @@ import React, {
     Text,
     Image,
     ListView,
-    TouchableHighlight
+    TouchableHighlight,
+    TextInput,
+    ToastAndroid
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -28,6 +30,7 @@ export class ChampionList extends Component {
 
     renderChampion(champion){
         var pressRow = function(champion){
+            ToastAndroid.show('You pressed goTo ' + champion.name, ToastAndroid.LONG);
             this.props.navigator.push({
                 component: ChampionDetailContainer,
                 props: {
@@ -52,6 +55,24 @@ export class ChampionList extends Component {
         );
     }
 
+    setSearchText(search){
+        let champions = this.props.championReducer.champions;
+        if(champions){
+            let filteredChampions = champions.filter(function(c){
+                return c.name.toLowerCase().indexOf(search.text.toLowerCase()) >= 0;
+            });
+            this.props.setFilteredChampions(filteredChampions);
+        }
+    }
+
+    getFilteredOrChampions(){
+        if(this.props.championReducer.filteredChampions){
+            return this.props.championReducer.filteredChampions;
+        } else {
+            return this.props.championReducer.champions;
+        }
+    }
+
     render() {
         // If champions doesn't exist
         if(!this.props.championReducer.champions){
@@ -62,10 +83,15 @@ export class ChampionList extends Component {
             );
         }
         // If champions exist.
-        this.dataSource = this.dataSource.cloneWithRows(this.props.championReducer.champions);
+        this.dataSource = this.dataSource.cloneWithRows(this.getFilteredOrChampions());
         return(
-
-            <ListView dataSource={this.dataSource} renderRow={this.renderChampion.bind(this)}/>
+            <View style={{flex: 1}}>
+                <TextInput
+                style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                onChangeText={(text) => this.setSearchText({text})}
+                />
+                <ListView onChangeVisibleRows={this.testLog} dataSource={this.dataSource} renderRow={this.renderChampion.bind(this)}/>
+            </View>
         );
     }
 }

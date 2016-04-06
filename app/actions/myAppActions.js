@@ -27,3 +27,10 @@ export function setChampionData(championData){
         championData
     }
 }
+
+export function setFilteredChampions(championData){
+    return {
+        type: types.SET_FILTERED_CHAMPIONS,
+        championData
+    }
+}
