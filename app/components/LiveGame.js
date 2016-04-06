@@ -44,8 +44,6 @@ export class LiveGame extends Component {
                 let participant = this.props.liveGame.participants[i];
                 liveGameParticipants.push(<Text key={i}>{participant.summonerName}</Text>)
             }
-        } else {
-            liveGameParticipants.push(<Text style={{margin: 12}} key="2">No live game retrieved yet, search for a summonername in the text input field above.</Text>);
         }
 
         return(
@@ -61,7 +59,15 @@ export class LiveGame extends Component {
                     onSubmitEditing={(event) => this.setSearchText({event})}
                 />
                 <Text>LiveGame</Text>
-                {liveGameParticipants}
+
+                {(()=> { // https://facebook.github.io/react/tips/if-else-in-JSX.html
+                    if(liveGameParticipants.length > 0){
+                        return liveGameParticipants
+                    } else {
+                        <Text style={{margin: 12}} key="2">No live game retrieved yet, search for a summonername in the text input field above.</Text>
+                    }
+                })()}
+
             </View>
         );
     }
