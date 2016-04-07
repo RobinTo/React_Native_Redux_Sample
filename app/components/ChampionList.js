@@ -24,7 +24,7 @@ export class ChampionList extends Component {
     }
 
     componentDidMount(){
-        this.props.getChampionData();
+        this.props.getStaticData();
     }
 
 
@@ -56,7 +56,7 @@ export class ChampionList extends Component {
     }
 
     setSearchText(search){
-        let champions = this.props.championReducer.champions;
+        let champions = this.props.champions;
         if(champions){
             let filteredChampions = champions.filter(function(c){
                 return c.name.toLowerCase().indexOf(search.text.toLowerCase()) >= 0;
@@ -66,16 +66,16 @@ export class ChampionList extends Component {
     }
 
     getFilteredOrChampions(){
-        if(this.props.championReducer.filteredChampions){
-            return this.props.championReducer.filteredChampions;
+        if(this.props.filteredChampions){
+            return this.props.filteredChampions;
         } else {
-            return this.props.championReducer.champions;
+            return this.props.champions;
         }
     }
 
     render() {
         // If champions doesn't exist
-        if(!this.props.championReducer.champions){
+        if(!this.props.champions){
             return (
                 <View>
                     <Text>Loading champions...</Text>

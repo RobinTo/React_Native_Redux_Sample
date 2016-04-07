@@ -1,29 +1,11 @@
+import { AsyncStorage } from 'react-native';
+
 import * as types from './actionTypes';
 import { myApiKey } from '../mySecrets';
 
 import * as StorageKeys from '../StorageKeys';
 
 import { RIOT_API_URLS, getRiotApiUrl } from '../utils';
-
-export function getChampionData(){
-    return function(dispatch) {
-        var REQUEST_URL = "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion?dataById=true&champData=image&api_key=" + myApiKey;
-        return fetch(REQUEST_URL)
-            .then((response) => response.json())
-            .then((responseData) => {
-
-                var keys = Object.keys(responseData.data),
-                    champions = [];
-                for(var i = 0; i < keys.length; i++){
-                    var champion = responseData.data[keys[i]];
-                    champions.push(champion);
-                }
-
-                dispatch(setChampionData(champions));
-            })
-            .done();
-    }
-}
 
 export function setChampionData(championData){
     return {
@@ -111,73 +93,102 @@ function extractSummonerDataFromResponse(responseData){
 }
 
 export function getStaticData(){
+    console.log("Attempting to get static data.");
     return function(dispatch){
+        AsyncStorage.getItem(StorageKeys.STATIC_CHAMPIONS)
+            .then((result) => {
+                // Documentation says it should return (error: ?Error, result: ?String)
+                // but result is returned as first argument. Not sure what that is all about.
+                // TODO: Look into if error will sneak in as first argument if it exists.
+                if(typeof result === "undefined"){
+                    getChampionsFromApi(dispatch);
+                } else {
+                    dispatch(setChampionData(JSON.parse(result)));
+                }
+            }).done();
 
         AsyncStorage.getItem(StorageKeys.STATIC_RUNES)
-            .then((err, result) =>{
-                if(err){
+            .then((result) =>{
+                if(typeof result === "undefined"){
                     getRuneDataFromApi(dispatch);
                 } else {
-                    dispatch(setRuneData(result));
+                    dispatch(setRuneData(JSON.parse(result)));
                 }
             }).done();
 
         AsyncStorage.getItem(StorageKeys.STATIC_MASTERIES)
-            .then((err, result) =>{
-                if(err){
+            .then((result) =>{
+                if(typeof result === "undefined"){
                     getMasteryDataFromApi(dispatch);
                 } else {
-                    dispatch(setMasteryData(result));
+                    dispatch(setMasteryData(JSON.parse(result)));
                 }
             }).done();
 
         AsyncStorage.getItem(StorageKeys.STATIC_SUMMONER_SPELLS)
-            .then((err, result) =>{
-                if(err){
+            .then((result) =>{
+                if(typeof result === "undefined"){
                     getSummonerSpellDataFromApi(dispatch);
                 } else {
-                    dispatch(setMasteryData(result));
+                    dispatch(setMasteryData(JSON.parse(result)));
                 }
             }).done();
     }
 }
 
-export function getRuneDataFromApi(dispatch){
-    return function(dispatch){
-        var RUNES_REQUEST_URL = RIOT_API_URLS.STATIC_DATA.RUNES + myApiKey;
-        fetch(RUNES_REQUEST_URL)
-            .then((response) => response.json())
-            .then((responseData) => {
-                dispatch(setRuneData(responseData));
-            })
-            .done();
-    }
+// The following functions are only callable from within another action passing dispatch to it.
+// To enable them to be called directly in a component; e.g. this.props.getChampionsFromApi
+// wrap the content in a thunk return.
+// These are only called from getStaticData() which updates all data.
+function getChampionsFromApi(dispatch){
+    var REQUEST_URL = "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion?dataById=true&champData=image&api_key=" + myApiKey;
+    return fetch(REQUEST_URL)
+        .then((response) => response.json())
+        .then((responseData) => {
+
+            var keys = Object.keys(responseData.data),
+                champions = [];
+            for(var i = 0; i < keys.length; i++){
+                var champion = responseData.data[keys[i]];
+                champions.push(champion);
+            }
+
+            dispatch(setChampionData(champions));
+        })
+        .done();
 }
 
-export function getMasteryDataFromApi(dispatch){
-    return function(dispatch){
-        var MASTERIES_REQUEST_URL = MASTERIES_REQUEST_URL = RIOT_API_URLS.STATIC_DATA.MASTERIES + myApiKey;
-        fetch(MASTERIES_REQUEST_URL)
-            .then((response) => response.json())
-            .then((responseData) => {
-                dispatch(setMasteryData(responseData));
-            })
-            .done();
-    }
+function getRuneDataFromApi(dispatch){
+    var RUNES_REQUEST_URL = RIOT_API_URLS.STATIC_DATA.RUNES + myApiKey;
+    fetch(RUNES_REQUEST_URL)
+        .then((response) => response.json())
+        .then((responseData) => {
+            dispatch(setRuneData(responseData));
+        })
+        .done();
+}
+
+function getMasteryDataFromApi(dispatch){
+    var MASTERIES_REQUEST_URL = MASTERIES_REQUEST_URL = RIOT_API_URLS.STATIC_DATA.MASTERIES + myApiKey;
+    fetch(MASTERIES_REQUEST_URL)
+        .then((response) => response.json())
+        .then((responseData) => {
+            dispatch(setMasteryData(responseData));
+        })
+        .done();
 }
 
 
-export function getSummonerSpellDataFromApi(dispatch){
-    return function(dispatch){
-        var SUMMONER_SPELLS_REQUEST_URL = RIOT_API_URLS.STATIC_DATA.SUMMONER_SPELLS + myApiKey;
-        fetch(SUMMONER_SPELLS_REQUEST_URL)
-            .then((response) => response.json())
-            .then((responseData) => {
-                dispatch(setSummonerSpellData(responseData));
-            })
-            .done();
-    }
+function getSummonerSpellDataFromApi(dispatch){
+    var SUMMONER_SPELLS_REQUEST_URL = RIOT_API_URLS.STATIC_DATA.SUMMONER_SPELLS + myApiKey;
+    fetch(SUMMONER_SPELLS_REQUEST_URL)
+        .then((response) => response.json())
+        .then((responseData) => {
+            dispatch(setSummonerSpellData(responseData));
+        })
+        .done();
 }
+// End of static data retrieval which functions.
 
 export function setRuneData(runeData){
     return {
