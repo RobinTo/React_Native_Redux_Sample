@@ -1,7 +1,9 @@
 import championReducer from './championReducer';
-import liveGameReducer from './LiveGameReducer';
+import liveGameReducer from './liveGameReducer';
+import staticDataReducer from './staticDataReducer';
 
 export {
     championReducer,
-    liveGameReducer
+    liveGameReducer,
+    staticDataReducer
 };

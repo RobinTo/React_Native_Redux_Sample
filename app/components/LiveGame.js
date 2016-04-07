@@ -11,6 +11,7 @@ import React, {
 import { connect } from 'react-redux';
 import * as myAppActions from '../actions/myAppActions';
 import { ChampionListContainer } from '../components/ChampionList';
+import { Participant } from './LiveGame/Participant';
 
 export class LiveGame extends Component {
     constructor(props){
@@ -24,7 +25,7 @@ export class LiveGame extends Component {
     setSearchText(event){
         var text = event.event.nativeEvent.text; // Will this be the same on iOS? Most likely not?
         console.log("Searching for " + text);
-        this.props.searchForLiveGameBySummonerName(text);
+        this.props.searchForLiveGameBySummonerName("euw", text);
     }
 
     _onPressButton(){
@@ -42,7 +43,7 @@ export class LiveGame extends Component {
         if(this.props.liveGame){
             for(var i in this.props.liveGame.participants){
                 let participant = this.props.liveGame.participants[i];
-                liveGameParticipants.push(<Text key={i}>{participant.summonerName}</Text>)
+                liveGameParticipants.push(<Participant key={i} participantData={participant} />);
             }
         }
 
@@ -57,6 +58,7 @@ export class LiveGame extends Component {
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                     onSubmitEditing={(event) => this.setSearchText({event})}
+                    value="Vindegrale"
                 />
                 <Text>LiveGame</Text>
 

@@ -99,7 +99,8 @@ export class ChampionList extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        championReducer: state.championReducer
+        champions: state.staticDataReducer.champions,
+        filteredChampions : state.championReducer.filteredChampions
     }
 }
 
