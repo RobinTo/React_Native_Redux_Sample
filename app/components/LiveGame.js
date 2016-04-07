@@ -11,7 +11,7 @@ import React, {
 import { connect } from 'react-redux';
 import * as myAppActions from '../actions/myAppActions';
 import { ChampionListContainer } from '../components/ChampionList';
-import { Participant } from './LiveGame/Participant';
+import { ParticipantContainer } from './LiveGame/Participant';
 
 export class LiveGame extends Component {
     constructor(props){
@@ -43,7 +43,7 @@ export class LiveGame extends Component {
         if(this.props.liveGame){
             for(var i in this.props.liveGame.participants){
                 let participant = this.props.liveGame.participants[i];
-                liveGameParticipants.push(<Participant key={i} participantData={participant} />);
+                liveGameParticipants.push(<ParticipantContainer key={i} participantData={participant} />);
             }
         }
 
@@ -58,7 +58,7 @@ export class LiveGame extends Component {
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                     onSubmitEditing={(event) => this.setSearchText({event})}
-                    value="Vindegrale"
+                    value="Yaphets"
                 />
                 <Text>LiveGame</Text>
 

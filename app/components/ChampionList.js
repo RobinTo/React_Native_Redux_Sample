@@ -24,7 +24,13 @@ export class ChampionList extends Component {
     }
 
     componentDidMount(){
-        this.props.getStaticData();
+        this.champions = [];
+        var keys = Object.keys(this.props.champions),
+            champions = [];
+        for(var i = 0; i < keys.length; i++){
+            var champion = this.props.champions[keys[i]];
+            this.champions.push(champion);
+        }
     }
 
 
@@ -56,7 +62,7 @@ export class ChampionList extends Component {
     }
 
     setSearchText(search){
-        let champions = this.props.champions;
+        let champions = this.champions;
         if(champions){
             let filteredChampions = champions.filter(function(c){
                 return c.name.toLowerCase().indexOf(search.text.toLowerCase()) >= 0;
@@ -75,7 +81,7 @@ export class ChampionList extends Component {
 
     render() {
         // If champions doesn't exist
-        if(!this.props.champions){
+        if(!this.props.champions && !this.champions){
             return (
                 <View>
                     <Text>Loading champions...</Text>

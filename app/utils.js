@@ -20,6 +20,7 @@ export const RIOT_API_URLS = {
     SUMMONER_DATA : "https://REGION.api.pvp.net/api/lol/REGION/v1.4/summoner/by-name/SUMMONERNAME?api_key=",
 
     STATIC_DATA : {
+        CHAMPIONS : "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion?dataById=true&champData=image&api_key=",
         RUNES : "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/rune?runeListData=sanitizedDescription&api_key=",
         MASTERIES : "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/mastery?masteryListData=image,sanitizedDescription&api_key=",
         SUMMONER_SPELLS : "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/summoner-spell?spellData=cooldown,image,sanitizedDescription&api_key="

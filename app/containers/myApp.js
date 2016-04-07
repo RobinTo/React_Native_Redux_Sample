@@ -20,6 +20,11 @@ class MyApp extends Component {
         );
     }
 
+    componentDidMount(){
+        //this.props.clearData();
+        this.props.getStaticData();
+    }
+
     render() {
 
         return(

@@ -92,6 +92,19 @@ function extractSummonerDataFromResponse(responseData){
     return responseData[key];
 }
 
+export function clearData(){
+    return function(dispatch){
+        AsyncStorage.getAllKeys((err, keys) => {
+            console.log("Removing")
+            console.log(err);
+            console.log(keys);
+            AsyncStorage.multiRemove(keys, (err) => {
+                console.warn("Cleared all data");
+            });
+        });
+    }
+}
+
 export function getStaticData(){
     console.log("Attempting to get static data.");
     return function(dispatch){
@@ -100,7 +113,7 @@ export function getStaticData(){
                 // Documentation says it should return (error: ?Error, result: ?String)
                 // but result is returned as first argument. Not sure what that is all about.
                 // TODO: Look into if error will sneak in as first argument if it exists.
-                if(typeof result === "undefined"){
+                if(typeof result === "undefined" || result === null){
                     getChampionsFromApi(dispatch);
                 } else {
                     dispatch(setChampionData(JSON.parse(result)));
@@ -109,7 +122,7 @@ export function getStaticData(){
 
         AsyncStorage.getItem(StorageKeys.STATIC_RUNES)
             .then((result) =>{
-                if(typeof result === "undefined"){
+                if(typeof result === "undefined" || result === null){
                     getRuneDataFromApi(dispatch);
                 } else {
                     dispatch(setRuneData(JSON.parse(result)));
@@ -118,7 +131,7 @@ export function getStaticData(){
 
         AsyncStorage.getItem(StorageKeys.STATIC_MASTERIES)
             .then((result) =>{
-                if(typeof result === "undefined"){
+                if(typeof result === "undefined" || result === null){
                     getMasteryDataFromApi(dispatch);
                 } else {
                     dispatch(setMasteryData(JSON.parse(result)));
@@ -127,7 +140,7 @@ export function getStaticData(){
 
         AsyncStorage.getItem(StorageKeys.STATIC_SUMMONER_SPELLS)
             .then((result) =>{
-                if(typeof result === "undefined"){
+                if(typeof result === "undefined" || result === null){
                     getSummonerSpellDataFromApi(dispatch);
                 } else {
                     dispatch(setMasteryData(JSON.parse(result)));
@@ -141,19 +154,12 @@ export function getStaticData(){
 // wrap the content in a thunk return.
 // These are only called from getStaticData() which updates all data.
 function getChampionsFromApi(dispatch){
-    var REQUEST_URL = "https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion?dataById=true&champData=image&api_key=" + myApiKey;
+    var REQUEST_URL = RIOT_API_URLS.STATIC_DATA.CHAMPIONS + myApiKey;
     return fetch(REQUEST_URL)
         .then((response) => response.json())
         .then((responseData) => {
-
-            var keys = Object.keys(responseData.data),
-                champions = [];
-            for(var i = 0; i < keys.length; i++){
-                var champion = responseData.data[keys[i]];
-                champions.push(champion);
-            }
-
-            dispatch(setChampionData(champions));
+            console.log(responseData.data);
+            dispatch(setChampionData(responseData.data));
         })
         .done();
 }
@@ -163,17 +169,17 @@ function getRuneDataFromApi(dispatch){
     fetch(RUNES_REQUEST_URL)
         .then((response) => response.json())
         .then((responseData) => {
-            dispatch(setRuneData(responseData));
+            dispatch(setRuneData(responseData.data));
         })
         .done();
 }
 
 function getMasteryDataFromApi(dispatch){
-    var MASTERIES_REQUEST_URL = MASTERIES_REQUEST_URL = RIOT_API_URLS.STATIC_DATA.MASTERIES + myApiKey;
+    var MASTERIES_REQUEST_URL = RIOT_API_URLS.STATIC_DATA.MASTERIES + myApiKey;
     fetch(MASTERIES_REQUEST_URL)
         .then((response) => response.json())
         .then((responseData) => {
-            dispatch(setMasteryData(responseData));
+            dispatch(setMasteryData(responseData.data));
         })
         .done();
 }
@@ -184,7 +190,7 @@ function getSummonerSpellDataFromApi(dispatch){
     fetch(SUMMONER_SPELLS_REQUEST_URL)
         .then((response) => response.json())
         .then((responseData) => {
-            dispatch(setSummonerSpellData(responseData));
+            dispatch(setSummonerSpellData(responseData.data));
         })
         .done();
 }
