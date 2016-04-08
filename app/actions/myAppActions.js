@@ -57,6 +57,36 @@ export function searchForLiveGameBySummonerName(region, summonerName){
     }
 }
 
+// Exactly the same as the above function, except it does not getLiveGame instantly afterwards.
+// TODO: Make these share code.
+export function getSpecificSummonerData(region, summonerName){
+    return function(dispatch){
+        var options = {
+                summonerName,
+                region
+            },
+            builtUrl = getRiotApiUrl(RIOT_API_URLS.SUMMONER_DATA, options),
+            REQUEST_URL = builtUrl + myApiKey;
+
+        console.log("Searching for summoner data:", REQUEST_URL);
+        return fetch(REQUEST_URL)
+            .then((response) => response.json())
+            .then((responseData) => {
+
+                var summonerData = extractSummonerDataFromResponse(responseData);
+
+                dispatch(setSpecificSummonerData(summonerData));
+            }).done()
+    }
+}
+
+export function setSpecificSummonerData(summonerData){
+    return {
+        type: types.SET_SPECIFIC_SUMMONERDATA,
+        summonerData
+    }
+}
+
 export function setSummonerData(summonerData){
     return {
         type: types.SET_SUMMONERDATA,

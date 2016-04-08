@@ -43,7 +43,7 @@ export class LiveGame extends Component {
         if(this.props.liveGame){
             for(var i in this.props.liveGame.participants){
                 let participant = this.props.liveGame.participants[i];
-                liveGameParticipants.push(<ParticipantContainer key={i} participantData={participant} />);
+                liveGameParticipants.push(<ParticipantContainer navigator={this.props.navigator} key={i} participantData={participant} />);
             }
         }
 
@@ -58,7 +58,7 @@ export class LiveGame extends Component {
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                     onSubmitEditing={(event) => this.setSearchText({event})}
-                    value="Yaphets"
+                    value="IBroughtMyTent"
                 />
                 <Text>LiveGame</Text>
 
