@@ -9,7 +9,7 @@ const initialState = {
 }
 
 export default function summonerDataReducer(state = initialState, action={}) {
-    console.log("Running summonerDataReducer for " + action.type);
+    //console.log("Running summonerDataReducer for " + action.type);
     switch (action.type){
         case types.SET_SUMMONER_CHAMPION_DATA:
             var newState = Object.assign({}, state);
@@ -23,8 +23,7 @@ export default function summonerDataReducer(state = initialState, action={}) {
             if(!hasKey(newState.summonerData, action.summonerId)){
                 newState.summonerData[action.summonerId] = {}
             }
-            newState.summonerData[action.summonerId]["leagueData"] = action.summonerLeagueData[Object.keys(action.summonerLeagueData)[0]];
-            console.log("Set league data");
+            newState.summonerData[action.summonerId]["leagueData"] = action.summonerLeagueData;
             newState.summonerData[action.summonerId]["leagueData"]
             return newState;
         default:

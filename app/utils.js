@@ -116,3 +116,18 @@ function platformIdifyUrl(url, platformId){
 export function hasKey(object, key){
     return Object.keys(object).indexOf(key) >= 0;
 }
+
+export function getDeepOrDefault(object, keys, defaultval=null){
+    if(!object || typeof object === "undefined" || object === null){
+        return defaultval;
+    }
+    var returnval = object;
+    for(var i = 0; i< keys.length; i++){
+        if(returnval.hasOwnProperty(keys[i])){
+            returnval = returnval[keys[i]];
+        } else {
+            return defaultval;
+        }
+    }
+    return returnval;
+}

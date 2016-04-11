@@ -29,9 +29,12 @@ export class SummonerDetails extends Component {
                 </View>
             );
         }
-        console.log("Summoner was defined:");
-        console.log(summoner);
-        var jsonLeague = JSON.stringify(this.props.summonerData.leagueData);
+        //console.log("Summoner was defined:");
+        //console.log(summoner);
+        console.log(this.props.summonerData.leagueData);
+        var jsonLeague = JSON.stringify(this.props.summonerData.leagueData),
+            league = this.props.summonerData.leagueData[0].tier,
+            division = this.props.summonerData.leagueData[0].entries[0].division;
         return(
             <View style={styles.container}>
                 <Image
@@ -40,7 +43,7 @@ export class SummonerDetails extends Component {
                 />
                 <View style={styles.rightContainer}>
                     <Text style={styles.name}>{this.props.summonerId}</Text>
-                    <Text>{jsonLeague}</Text>
+                    <Text>{league} {division}</Text>
                 </View>
             </View>
         );

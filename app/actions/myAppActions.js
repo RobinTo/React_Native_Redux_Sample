@@ -226,9 +226,19 @@ export function getSummonerChampionData(region, summonerId){
             builtUrl = getRiotApiUrl(RIOT_API_URLS.SUMMONER.CHAMPION_STATS, options),
             SUMMONER_CHAMPION_DATA_REQUEST_URL = builtUrl + myApiKey;
         fetch(SUMMONER_CHAMPION_DATA_REQUEST_URL)
-            .then((response) => response.json())
+            .then((response) => {
+                if(response.status === 200){
+                    return response.json()
+                } else {
+                    throw {error: "Fetch error in summoner champion stats.", status: response.status};
+                }
+            })
             .then((responseData) => {
                 dispatch(setSummonerChampionData(summonerId, responseData));
+            })
+            .catch((error) => {
+                console.log(error.error);
+                dispatch(setSummonerChampionData(summonerId, error))
             }).done();
     }
 }
@@ -241,10 +251,22 @@ export function getSummonerLeagueData(region, summonerId){
             },
             builtUrl = getRiotApiUrl(RIOT_API_URLS.SUMMONER.LEAGUE, options),
             SUMMONER_LEAGUE_DATA_REQUEST_URL = builtUrl + myApiKey;
+        console.log("Fetching league for " + summonerId);
+        console.log(SUMMONER_LEAGUE_DATA_REQUEST_URL);
         fetch(SUMMONER_LEAGUE_DATA_REQUEST_URL)
-            .then((response) => response.json())
+            .then((response) => {
+                if(response.status === 200){
+                    return response.json()
+                } else {
+                    throw {error: "Fetch error in league data.", status: response.status};
+                }
+            })
             .then((responseData) => {
-                dispatch(setSummonerLeagueData(summonerId, responseData));
+                dispatch(setSummonerLeagueData(summonerId, responseData[Object.keys(responseData)[0]]));
+            })
+            .catch((error) => {
+                console.log(error.error);
+                dispatch(setSummonerLeagueData(summonerId, error))
             }).done();
     }
 }
