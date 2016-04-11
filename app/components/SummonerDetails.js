@@ -18,12 +18,10 @@ export class SummonerDetails extends Component {
     }
 
     componentDidMount(){
-        this.props.getSpecificSummonerData("euw", this.props.summonerName);
     }
 
     render() {
-        var summoner = this.props.summoner;
-
+        var summoner = this.props.summonerData;
         if(!summoner || typeof summoner === "undefined" || summoner === null){
             return (
                 <View>
@@ -33,6 +31,7 @@ export class SummonerDetails extends Component {
         }
         console.log("Summoner was defined:");
         console.log(summoner);
+        var jsonLeague = JSON.stringify(this.props.summonerData.leagueData);
         return(
             <View style={styles.container}>
                 <Image
@@ -40,8 +39,8 @@ export class SummonerDetails extends Component {
                     style={styles.thumbnail}
                 />
                 <View style={styles.rightContainer}>
-                    <Text style={styles.name}>{summoner.name}</Text>
-                    <Text style={styles.title}>{summoner.id}</Text>
+                    <Text style={styles.name}>{this.props.summonerId}</Text>
+                    <Text>{jsonLeague}</Text>
                 </View>
             </View>
         );
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, ownProps) {
     return {
-        summoner : state.summonerDataReducer.summonerData[ownProps.summonerName]
+        summonerData : state.summonerDataReducer.summonerData[ownProps.summonerId]
     }
 }
 

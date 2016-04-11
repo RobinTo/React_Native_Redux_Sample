@@ -58,7 +58,7 @@ export class LiveGame extends Component {
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                     onSubmitEditing={(event) => this.setSearchText({event})}
-                    value="IBroughtMyTent"
+                    value="Narael"
                 />
                 <Text>LiveGame</Text>
 
