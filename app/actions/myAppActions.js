@@ -77,6 +77,7 @@ export function getLiveGame(region, summonerId, dispatch){
         .then((response) => response.json())
         .then((responseData) => {
             dispatch(setLiveGame(responseData));
+            dispatch(setSearchingLivegame(false));
         }).done();
 }
 
@@ -284,5 +285,12 @@ export function setSummonerLeagueData(summonerId, summonerLeagueData){
         type: types.SET_SUMMONER_LEAGUE_DATA,
         summonerId,
         summonerLeagueData
+    }
+}
+
+export function setSearchingLivegame(searching){
+    return {
+        type: types.SET_SEARCHING_LIVEGAME,
+        searching
     }
 }

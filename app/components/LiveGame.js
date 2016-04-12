@@ -25,6 +25,7 @@ export class LiveGame extends Component {
     setSearchText(event){
         var text = event.event.nativeEvent.text; // Will this be the same on iOS? Most likely not?
         console.log("Searching for " + text);
+        this.props.setSearchingLivegame(true);
         this.props.searchForLiveGameBySummonerName("euw", text);
     }
 
@@ -37,6 +38,9 @@ export class LiveGame extends Component {
     }
 
     render() {
+
+
+
 
         var liveGameParticipants = [];
 
@@ -58,12 +62,14 @@ export class LiveGame extends Component {
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                     onSubmitEditing={(event) => this.setSearchText({event})}
-                    value="Alkoo"
                 />
                 <Text>LiveGame</Text>
 
                 {(()=> { // https://facebook.github.io/react/tips/if-else-in-JSX.html
-                    if(liveGameParticipants.length > 0){
+                    if(this.props.searching){
+                        return <Text style={{textAlign: "center"}}>Searching...</Text>
+                    }
+                    else if(liveGameParticipants.length > 0){
                         return liveGameParticipants
                     } else {
                        return <Text style={{margin: 12}} key="2">No live game retrieved yet, search for a summonername in the text input field above.</Text>
@@ -86,7 +92,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, ownProps) {
     return {
-        liveGame : state.liveGameReducer.liveGame
+        liveGame : state.liveGameReducer.liveGame,
+        searching : state.liveGameReducer.searching
     }
 }
 

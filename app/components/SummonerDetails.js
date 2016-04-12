@@ -11,6 +11,7 @@ import React, {
 
 import { connect } from 'react-redux';
 import * as myAppActions from '../actions/myAppActions';
+import {getDeepOrDefault, iconsMap, capitalizeFirstLetter, divideOrDefault} from '../utils';
 
 export class SummonerDetails extends Component {
     constructor(props){
@@ -29,21 +30,36 @@ export class SummonerDetails extends Component {
                 </View>
             );
         }
+
+        var league = capitalizeFirstLetter(getDeepOrDefault(this.props.summonerData, ["leagueData", 0, "tier"], "Unranked")),
+            division = getDeepOrDefault(this.props.summonerData, ["leagueData", 0, "entries", 0, "division"], "");
+
+        var championStats = getDeepOrDefault(this.props.summonerData, ["championData", "champions"], []),
+            currentChampion = null;
+
+        for(var i = 0; i < championStats.length; i++){
+            if(championStats[i].id === this.props.champion.id){
+                currentChampion=championStats[i];
+            }
+        }
+        var wins = getDeepOrDefault(currentChampion, ["stats", "totalSessionsWon"], 0),
+            losses = getDeepOrDefault(currentChampion, ["stats", "totalSessionsLost"], 0),
+            total = wins+losses,
+            winRate = (divideOrDefault(wins, total, 0)*100).toFixed(0),
+            kills = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalChampionKills"], 0), total, 0).toFixed(2),
+            assists = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalAssists"], 0), total, 0).toFixed(2),
+            deaths = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalDeathsPerSession"], 0), total, 0).toFixed(2);
+
         //console.log("Summoner was defined:");
         //console.log(summoner);
-        console.log(this.props.summonerData.leagueData);
-        var jsonLeague = JSON.stringify(this.props.summonerData.leagueData),
-            league = this.props.summonerData.leagueData[0].tier,
-            division = this.props.summonerData.leagueData[0].entries[0].division;
-        return(
-            <View style={styles.container}>
+            return (<View style={styles.container}>
                 <Image
                     source={{uri: "http://ddragon.leagueoflegends.com/cdn/6.6.1/img/champion/" + this.props.champion.image.full}}
                     style={styles.thumbnail}
                 />
                 <View style={styles.rightContainer}>
                     <Text style={styles.name}>{this.props.summonerId}</Text>
-                    <Text>{league} {division}</Text>
+                    <Text style={styles.title}>{league} {division}</Text>
                 </View>
             </View>
         );

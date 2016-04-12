@@ -2,6 +2,7 @@ import * as types from '../actions/actionTypes';
 
 const initialState = {
     liveGame: null,
+    searching: false,
     summonerName: null
 };
 
@@ -17,6 +18,11 @@ export default function LiveGameReducer(state = initialState, action = {}) {
             return {
                 ...state,
                 liveGame : action.liveGame
+            };
+        case types.SET_SEARCHING_LIVEGAME:
+            return {
+                ...state,
+                searching: action.searching
             };
         default:
             return state;
