@@ -122,7 +122,7 @@ export function getDeepOrDefault(object, keys, defaultval=null){
         return defaultval;
     }
     var returnval = object;
-    for(var i = 0; i< keys.length; i++){
+    for(var i = 0; i < keys.length; i++){
         if(returnval.hasOwnProperty(keys[i])){
             returnval = returnval[keys[i]];
         } else {
@@ -130,4 +130,27 @@ export function getDeepOrDefault(object, keys, defaultval=null){
         }
     }
     return returnval;
+}
+
+export const iconsMap = {
+    bronze : require("./res/img/base_icons/bronze.png"),
+    silver : require("./res/img/base_icons/silver.png"),
+    gold : require("./res/img/base_icons/gold.png"),
+    platinum : require("./res/img/base_icons/platinum.png"),
+    diamond : require("./res/img/base_icons/diamond.png"),
+    master : require("./res/img/base_icons/master.png"),
+    challenger : require("./res/img/base_icons/challenger.png"),
+    unranked : require("./res/img/base_icons/provisional.png"),
+};
+
+export function capitalizeFirstLetter(word){
+    return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+}
+
+export function divideOrDefault(dividend, divisor, def){
+    if(divisor === 0 || dividend === 0){
+        return def;
+    } else {
+        return dividend/divisor;
+    }
 }

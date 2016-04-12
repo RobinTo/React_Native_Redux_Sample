@@ -13,7 +13,7 @@ const initialState = {
 }
 
 export default function staticDataReducer(state = initialState, action={}) {
-    console.log("Running staticDataReducer for " + action.type);
+    //console.log("Running staticDataReducer for " + action.type);
     switch (action.type){
         case types.SET_STATIC_VERSION:
             AsyncStorage.setItem(StorageKeys.VERSION, JSON.stringify(action.version));
