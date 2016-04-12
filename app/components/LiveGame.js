@@ -66,7 +66,7 @@ export class LiveGame extends Component {
                     if(liveGameParticipants.length > 0){
                         return liveGameParticipants
                     } else {
-                        <Text style={{margin: 12}} key="2">No live game retrieved yet, search for a summonername in the text input field above.</Text>
+                       return <Text style={{margin: 12}} key="2">No live game retrieved yet, search for a summonername in the text input field above.</Text>
                     }
                 })()}
 
