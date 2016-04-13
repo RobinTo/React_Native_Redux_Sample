@@ -231,7 +231,7 @@ export function getSummonerChampionData(region, summonerId){
                 if(response.status === 200){
                     return response.json()
                 } else {
-                    throw {error: "Fetch error in summoner champion stats.", status: response.status};
+                    throw {error: "Fetch error in summoner champion stats. " + summonerId, status: response.status};
                 }
             })
             .then((responseData) => {
@@ -259,7 +259,7 @@ export function getSummonerLeagueData(region, summonerId){
                 if(response.status === 200){
                     return response.json()
                 } else {
-                    throw {error: "Fetch error in league data.", status: response.status};
+                    throw {error: "Fetch error in league data. " + summonerId, status: response.status};
                 }
             })
             .then((responseData) => {

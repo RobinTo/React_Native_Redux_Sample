@@ -11,7 +11,9 @@ import React, {
 
 import { connect } from 'react-redux';
 import * as myAppActions from '../actions/myAppActions';
-import {getDeepOrDefault, iconsMap, capitalizeFirstLetter, divideOrDefault} from '../utils';
+import {getDeepOrDefault, iconsMap, capitalizeFirstLetter, divideOrDefault, extractStats} from '../utils';
+
+import WinLoss from './WinLoss';
 
 export class SummonerDetails extends Component {
     constructor(props){
@@ -42,20 +44,11 @@ export class SummonerDetails extends Component {
                 currentChampion=championStats[i];
             }
         }
-        var wins = getDeepOrDefault(currentChampion, ["stats", "totalSessionsWon"], 0),
-            losses = getDeepOrDefault(currentChampion, ["stats", "totalSessionsLost"], 0),
-            total = wins+losses,
-            winRate = (divideOrDefault(wins, total, 0)*100).toFixed(0),
-            kills = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalChampionKills"], 0), total, 0).toFixed(2),
-            assists = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalAssists"], 0), total, 0).toFixed(2),
-            deaths = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalDeathsPerSession"], 0), total, 0).toFixed(2),
-            minionKills = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalMinionKills"], 0), total, 0).toFixed(1),
-            goldEarned = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalGoldEarned"], 0), total, 0).toFixed(0),
+
+        var stats = this.props.stats,
             championInfo = JSON.stringify(currentChampion);
 
-        //console.log("Summoner was defined:");
-        //console.log(summoner);
-            return (
+        return (
             <View style={styles.outer}>
                 <View style={styles.container}>
                     <Image
@@ -72,10 +65,10 @@ export class SummonerDetails extends Component {
                     />
                 </View>
                 <View style={styles.containerColumns}>
-                    <Text>W/L: {wins}/{losses} ({winRate}%)</Text>
-                    <Text>K/D/A: {kills}/{assists}/{deaths}</Text>
-                    <Text>Minions: {minionKills}</Text>
-                    <Text>Gold earned: {goldEarned}</Text>
+                    <WinLoss wins={stats.wins} losses={stats.losses} winRate={stats.winRate} />
+                    <Text>K/D/A: {stats.kills}/{stats.assists}/{stats.deaths}</Text>
+                    <Text>Minions: {stats.minionKills}</Text>
+                    <Text>Gold earned: {stats.goldEarned}</Text>
                     <Text>{championInfo}</Text>
                 </View>
             </View>

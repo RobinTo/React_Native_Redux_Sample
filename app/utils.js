@@ -154,3 +154,27 @@ export function divideOrDefault(dividend, divisor, def){
         return dividend/divisor;
     }
 }
+
+export function extractStats(currentChampion){
+    var wins = getDeepOrDefault(currentChampion, ["stats", "totalSessionsWon"], 0),
+        losses = getDeepOrDefault(currentChampion, ["stats", "totalSessionsLost"], 0),
+        total = wins+losses,
+        winRate = (divideOrDefault(wins, total, 0)*100).toFixed(0),
+        kills = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalChampionKills"], 0), total, 0).toFixed(1),
+        assists = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalAssists"], 0), total, 0).toFixed(1),
+        deaths = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalDeathsPerSession"], 0), total, 0).toFixed(1),
+        minionKills = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalMinionKills"], 0), total, 0).toFixed(1),
+        goldEarned = divideOrDefault(getDeepOrDefault(currentChampion, ["stats", "totalGoldEarned"], 0), total, 0).toFixed(0);
+
+    return {
+        wins,
+        losses,
+        total,
+        winRate,
+        kills,
+        assists,
+        deaths,
+        minionKills,
+        goldEarned
+    };
+}

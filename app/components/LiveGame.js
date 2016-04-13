@@ -5,7 +5,8 @@ import React, {
     Text,
     Image,
     TextInput,
-    TouchableHighlight
+    TouchableHighlight,
+    ToastAndroid
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -23,10 +24,14 @@ export class LiveGame extends Component {
     }
 
     setSearchText(event){
-        var text = event.event.nativeEvent.text; // Will this be the same on iOS? Most likely not?
-        console.log("Searching for " + text);
-        this.props.setSearchingLivegame(true);
-        this.props.searchForLiveGameBySummonerName("euw", text);
+        if(!this.props.searching){
+            var text = event.event.nativeEvent.text; // Will this be the same on iOS? Most likely not?
+            console.log("Searching for " + text);
+            this.props.setSearchingLivegame(true);
+            this.props.searchForLiveGameBySummonerName("euw", text);
+        } else {
+            ToastAndroid.show('Search in progress, please wait!', ToastAndroid.SHORT);
+        }
     }
 
     _onPressButton(){

@@ -2,6 +2,8 @@
 
 start cmd /c adb devices
 
+timeout /t 5
+
 start cmd /c adb reverse tcp:8081 tcp:8081
 
 start cmd /c adb logcat *:S ReactNative:V ReactNativeJS:V
