@@ -6,13 +6,8 @@ const initialState = {
 };
 
 export default function championReducer(state = initialState, action = {}) {
-    console.log("Running championReducer for " + action.type);
+    //console.log("Running championReducer for " + action.type);
     switch (action.type) {
-        case types.SET_CHAMPION_DATA:
-            return {
-                ...state,
-                champions: action.championData
-            }
         case types.SET_FILTERED_CHAMPIONS:
             return {
                 ...state,

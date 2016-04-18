@@ -24,7 +24,13 @@ export class ChampionList extends Component {
     }
 
     componentDidMount(){
-        this.props.getChampionData();
+        this.champions = [];
+        var keys = Object.keys(this.props.champions),
+            champions = [];
+        for(var i = 0; i < keys.length; i++){
+            var champion = this.props.champions[keys[i]];
+            this.champions.push(champion);
+        }
     }
 
 
@@ -56,7 +62,7 @@ export class ChampionList extends Component {
     }
 
     setSearchText(search){
-        let champions = this.props.championReducer.champions;
+        let champions = this.champions;
         if(champions){
             let filteredChampions = champions.filter(function(c){
                 return c.name.toLowerCase().indexOf(search.text.toLowerCase()) >= 0;
@@ -66,16 +72,16 @@ export class ChampionList extends Component {
     }
 
     getFilteredOrChampions(){
-        if(this.props.championReducer.filteredChampions){
-            return this.props.championReducer.filteredChampions;
+        if(this.props.filteredChampions){
+            return this.props.filteredChampions;
         } else {
-            return this.props.championReducer.champions;
+            return this.props.champions;
         }
     }
 
     render() {
         // If champions doesn't exist
-        if(!this.props.championReducer.champions){
+        if(!this.props.champions && !this.champions){
             return (
                 <View>
                     <Text>Loading champions...</Text>
@@ -99,7 +105,8 @@ export class ChampionList extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        championReducer: state.championReducer
+        champions: state.staticDataReducer.champions,
+        filteredChampions : state.championReducer.filteredChampions
     }
 }
 
