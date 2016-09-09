@@ -4,7 +4,7 @@ Experimental react-native app using redux for state management, and thunk to han
 
 If you intend to clone and run you will have to add your own api key for the riot games api in app/mySecrets.js.<br />*export const myApiKey = "insert_api_key_here";*
 
-![Live game screen](http://i.imgur.com/AWTkt0f.png)
+<img src="http://i.imgur.com/AWTkt0f.png" width="300">
 
 #### Steps to run it on a phone:
 
