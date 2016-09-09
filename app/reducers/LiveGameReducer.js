@@ -6,8 +6,7 @@ const initialState = {
     summonerName: null
 };
 
-export default function LiveGameReducer(state = initialState, action = {}) {
-
+export default function liveGameReducer(state = initialState, action = {}) {
     switch(action.type){
         case types.SET_SUMMONERDATA:
             return {
